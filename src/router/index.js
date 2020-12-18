@@ -5,8 +5,6 @@ import HelloWorld from '@/components/HelloWorld'
  * 第一步   引入文件
  */
 import Test from '@/components/Test'
-import Register from '@/components/user/Register'
-import Login from '@/components/user/Login'
 
 Vue.use(Router)
 
@@ -26,16 +24,6 @@ export default new Router({
       path: '/test',
       name: 'Test',
       component: Test
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
     }
   ]
 })
