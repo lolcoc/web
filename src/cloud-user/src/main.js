@@ -3,6 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// 引入axios
+import axios from 'axios'
+axios.defaults.baseURL = 'http://127.0.0.1:8002/user/'
+// 修改Vue的原型属性
+Vue.prototype.$ajax = axios
 
 Vue.config.productionTip = false
 
