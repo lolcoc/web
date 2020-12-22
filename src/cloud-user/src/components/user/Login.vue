@@ -163,13 +163,17 @@ export default {
     login: function () {
       console.log(this.username)
       console.log(this.password)
-      this.$http.post(axios.defaults.baseURL + 'login', {
-        username: this.username,
-        password: this.password
-      }, {emulateJSON: true}).then(function (res) {
+      axios.create({
+        baseURL: axios.defaults.baseURL + 'login',
+        timeout: 5000,
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      }).post().then(res => {
         console.log(res.data)
         window.location.href = 'index.html'
-      }, function (res) {
+      }, res => {
         console.log(res.status)
       })
     }
