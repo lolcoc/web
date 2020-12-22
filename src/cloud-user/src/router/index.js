@@ -4,6 +4,7 @@ import Router from 'vue-router'
  * 第一步   引入文件
  */
 import Login from '@/components/user/Login'
+import Register from '@/components/user/Register'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/',
+      name: 'Register',
+      component: Register
     }
   ]
 })

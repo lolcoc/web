@@ -60,7 +60,7 @@
                 </el-col>
                 <el-col :span="1">
                   <div class="login-center-div-button">
-                    <el-button type="success" id="register">注册</el-button>
+                    <el-button type="success" id="register" @click="register">注册</el-button>
                   </div>
                 </el-col>
                 <el-col :span="2">
@@ -174,13 +174,19 @@ export default {
         console.log(res.data.code)
         if (res.data.code === 'error') {
           // 提示用户账号或密码错误
-
+          this.$alert(res.data.data, '', {
+            confirmButtonText: '确定',
+            center: true
+          })
         } else {
 
         }
       }, res => {
         console.log(res.status)
       })
+    },
+    register: function () {
+      this.$router.push('/user/Register')
     }
   }
 }
