@@ -150,6 +150,7 @@
   }
 </style>
 <script>
+import axios from 'axios'
 export default {
   name: 'Login',
   data () {
@@ -162,7 +163,7 @@ export default {
     login: function () {
       console.log(this.username)
       console.log(this.password)
-      this.$http.post('localhost:8080/user/login', {
+      this.$http.post(axios.defaults.baseURL + 'login', {
         username: this.username,
         password: this.password
       }, {emulateJSON: true}).then(function (res) {
