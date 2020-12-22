@@ -172,7 +172,7 @@ export default {
         }
       }).post().then(res => {
         console.log(res.data)
-        window.location.href = 'index.html'
+        // window.location.href = 'index.html'
       }, res => {
         console.log(res.status)
       })
