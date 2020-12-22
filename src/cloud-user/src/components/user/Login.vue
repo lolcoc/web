@@ -60,7 +60,7 @@
                 </el-col>
                 <el-col :span="1">
                   <div class="login-center-div-button">
-                    <el-button type="success">注册</el-button>
+                    <el-button type="success" id="register">注册</el-button>
                   </div>
                 </el-col>
                 <el-col :span="2">
@@ -171,8 +171,13 @@ export default {
           password: this.password
         }
       }).post().then(res => {
-        console.log(res.data)
-        // window.location.href = 'index.html'
+        console.log(res.data.code)
+        if (res.data.code === 'error') {
+          // 提示用户账号或密码错误
+
+        } else {
+
+        }
       }, res => {
         console.log(res.status)
       })
