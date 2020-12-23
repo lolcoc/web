@@ -186,7 +186,9 @@ export default {
       })
     },
     register: function () {
-      this.$router.push('/user/Register')
+      console.log(this.$router)
+      console.log(this.$route)
+      this.$router.push('/Register')
     }
   }
 }
