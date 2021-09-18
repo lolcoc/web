@@ -39,7 +39,9 @@ export default {
 
 <style>
   .Login{
-    margin-top: 200px;
+    width: 100%;
+    height: auto;
+    text-align: center;
   }
   .input_style{
     width: 300px;
