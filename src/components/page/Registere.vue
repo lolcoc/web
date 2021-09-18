@@ -28,7 +28,7 @@
         </div>
         <div class="div_style">
           <label class="label_style">身份证号：</label>
-          <input placeholder="请输入身份证号" v-model="customer.idNo" class="input_style" /><br>
+          <input placeholder="请输入身份证号" v-model="customer.idNo" class="input_style" @blur="verifyIdNo"/><br>
         </div>
         <div class="div_style">
           <label class="label_style">性 别：</label>
@@ -125,7 +125,17 @@ export default {
       if (!reg.test(this.customer.name)) {
         this.swal({
           text: '姓名输入有误',
-          confirmButtonText: '确认',
+          confirmButtonText: '确定',
+          showCancelButton: false
+        })
+      }
+    },
+    verifyIdNo () {
+      let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+      if (!reg.test(this.customer.idNo)) {
+        this.swal({
+          text: '身份证输入有误',
+          confirmButtonText: '确定',
           showCancelButton: false
         })
       }
