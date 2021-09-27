@@ -37,7 +37,7 @@
         </div>
         <div class="div_style">
           <label class="label_style">出生日期：</label>
-          <input placeholder="请填写出生年月日" v-model="customer.birthdayYear" class="input_style" /><br>
+          <input type="date" placeholder="请填写出生年月日" v-model="customer.birthday" class="input_style" /><br>
         </div>
         <div class="div_style">
           <label class="label_style">家庭住址：</label>
@@ -45,9 +45,9 @@
         </div>
         <div class="div_style">
           <label class="label_style">邀 请 码：</label>
-          <input placeholder="请输如邀请码（如没有可以不填）" v-model="customer.invitationCode" class="input_style" /><br>
+          <input placeholder="请输入邀请码（如没有可以不填）" v-model="customer.invitationCode" class="input_style" /><br>
         </div>
-        <button type="primary" @click="login" class="button_style">注  册</button>
+        <button type="primary" @click="register" class="button_style">注  册</button>
       </form>
     </div>
   </div>
@@ -67,26 +67,40 @@ export default {
         name: '',
         idNo: '',
         sex: '',
-        birthdayYear: '',
+        birthday: '',
         address: '',
         invitationCode: ''
-      },
-      errorPhone: false
+      }
     }
   },
   methods: {
-    login () {
+    register () {
+      let flag = true
       let formData = new FormData()
       for (var key in this.customer) {
+        if (key !== 'invitationCode' && this.customer[key] === '') {
+          this.swal({
+            text: '请完善注册信息',
+            confirmButtonText: '确定',
+            showCancelButton: false
+          })
+          flag = false
+        }
         formData.append(key, this.customer[key])
       }
-      axios.post('http://localhost:8001/customer/register', formData, {
-      }).then(response => {
-        var result = response.data
-        alert(result.resultCode)
-      }).catch(error => {
-        console.log(error)
-      })
+      if (flag) {
+        axios.post('http://localhost:8001/customer/register', formData, {
+        }).then(response => {
+          var result = response.data
+          this.swal({
+            text: result.resultCode,
+            confirmButtonText: '确定',
+            showCancelButton: false
+          })
+        }).catch(error => {
+          console.log(error)
+        })
+      }
     },
     verifyPhone () {
       let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/
