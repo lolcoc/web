@@ -2,7 +2,7 @@
   <div class="Login">
     <div>
       <h2>欢迎登录</h2>
-      <router-link to="/Register">
+      <router-link to="/register">
         没有账号去注册
       </router-link>
     </div>

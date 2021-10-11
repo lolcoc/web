@@ -8,7 +8,7 @@
         <router-link to="/" >
           返回首页
         </router-link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <router-link to="/Login">
+        <router-link to="/login">
           登录
         </router-link>
       </div>

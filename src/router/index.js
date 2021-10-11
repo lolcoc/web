@@ -13,20 +13,29 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: HelloWorld,
+      meta: {
+        title: '首页'
+      }
     },
     {
-      path: '/Login',
+      path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        title: '欢迎登录'
+      }
     },
     {
-      path: '/Register',
+      path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: {
+        title: '欢迎注册'
+      }
     },
     {
-      path: '/Date',
+      path: '/date',
       name: 'Date',
       component: Date
     }

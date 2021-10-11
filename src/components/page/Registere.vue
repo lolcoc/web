@@ -1,7 +1,7 @@
 <template>
-  <div class="Register">
-    <div style="position: absolute;z-index: -3">
-      <img src="../../assets/reg_bg_min.jpg">
+  <div class="register">
+    <div>
+      <img src="../../assets/reg_bg_min.jpg" class="bg_image">
     </div>
     <div class="from_style">
       <form>
@@ -159,10 +159,9 @@ export default {
 </script>
 
 <style scoped>
-  .Register{
+  .register{
     width: 100%;
     height: 100%;
-    text-align: center;
   }
   .label_style{
     display: inline-block;
@@ -187,11 +186,19 @@ export default {
   }
   .from_style{
     margin-left: 70%;
-    margin-top: 5%;
+    margin-top: 10%;
     background-color: aliceblue;
     width: 460px;
     height: 650px;
     position: absolute;
     z-index: 5;
+    text-align: center;
+  }
+  .bg_image{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -3;
   }
 </style>
