@@ -44,6 +44,5 @@ export default {
     height: auto;
     display: inline-block;
     text-align: center;
-    vertical-align: center;
   }
 </style>

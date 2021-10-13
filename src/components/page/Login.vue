@@ -1,5 +1,5 @@
 <template>
-  <div class="Login">
+  <div class="login">
     <div>
       <h2>欢迎登录</h2>
       <router-link to="/register">
@@ -8,37 +8,55 @@
     </div>
     <form>
       账号：<input placeholder="请输入账号" v-model="phone" clearable class="input_style" /><br>
-      <span v-if="error.phone" class="err-msg">{{error.phone}}</span>
-      密码：<input placeholder="请输入密码" v-model="password" show-password class="input_style" /><br>
-      <span v-if="error.password" class="err-msg">{{error.password}}</span>
+      密码：<input placeholder="请输入密码" v-model="password" show-password class="input_style"  type="password" autocomplete/><br>
       <button type="primary" @click="login" class="login_style">登录</button>
     </form>
   </div>
 </template>
 
 <script>
+import api from '../../router/api.js'
+import axios from 'axios'
 export default {
-  name: 'Login',
+  name: 'login',
   data () {
     return {
       phone: '',
-      password: '',
-      error: {
-        phone: '',
-        password: ''
-      }
+      password: ''
     }
   },
   methods: {
-    login () {
-
+    login (event) {
+      event.preventDefault()
+      let formData = new FormData()
+      formData.append('phone', this.phone)
+      formData.append('password', this.password)
+      axios.post(api.http + '/login', formData, {
+      }).then(response => {
+        var result = response.data
+        if (result.resultCode === 'success') {
+          this.swal({
+            text: '登录成功,欢迎 ' + result.massage + ' !',
+            confirmButtonText: '确定',
+            showCancelButton: false
+          }).then(function () {
+            this.$router.push('/')
+          }.bind(this))
+        } else {
+          this.swal({
+            text: result.massage,
+            confirmButtonText: '确定',
+            showCancelButton: false
+          })
+        }
+      })
     }
   }
 }
 </script>
 
 <style>
-  .Login{
+  .login{
     width: 100%;
     height: auto;
     text-align: center;

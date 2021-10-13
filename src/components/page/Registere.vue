@@ -12,15 +12,17 @@
         </div>
         <div class="div_style">
           <label class="label_style">验 证 码：</label>
-          <input placeholder="请输入验证码" v-model="customer.verifyCode" class="input_style" @blur="verifyVerifyCode"/>
+          <input placeholder="请输入验证码" v-model="customer.verifyCode" style="height: 30px; width: 42%; margin: 10px 10px" @blur="verifyVerifyCode"/>
+          <button v-show="show" style="height: 30px; width: auto;" @click="getVerifyCode">获取验证码</button>
+          <button v-show="!show" class="count" style="height: 30px; width: auto; size: 20px">{{count}} s重新获取</button>
         </div>
         <div class="div_style">
           <label class="label_style">密    码：</label>
-          <input placeholder="请输入密码" v-model="customer.password" class="input_style" type="password" @blur="verifyPassword"/><br>
+          <input placeholder="请输入密码" v-model="customer.password" class="input_style" type="password" @blur="verifyPassword" autocomplete/><br>
         </div>
         <div class="div_style">
           <label class="label_style">确认密码：</label>
-          <input placeholder="请再次输入密码" v-model="customer.confirmPassword" type="password" class="input_style"  @blur="verifyConfirmPassword"/><br>
+          <input placeholder="请再次输入密码" v-model="customer.confirmPassword" type="password" class="input_style"  @blur="verifyConfirmPassword" autocomplete/><br>
         </div>
         <div class="div_style">
           <label class="label_style">姓    名：</label>
@@ -32,8 +34,8 @@
         </div>
         <div class="div_style">
           <label class="label_style">性 别：</label>
-          <input type="radio" name="sex" value="1" v-model="customer.sex" class="gender"><label>男</label>
-          <input type="radio" name="sex" value="0" v-model="customer.sex" class="gender"><label>女</label><br/>
+          <input type="radio" name="sex" value="1" v-model="customer.sex"><label>男</label>
+          <input type="radio" name="sex" value="0" v-model="customer.sex"><label>女</label><br/>
         </div>
         <div class="div_style">
           <label class="label_style">出生日期：</label>
@@ -54,11 +56,15 @@
 </template>
 
 <script>
+import api from '../../router/api.js'
 import axios from 'axios'
 export default {
   name: 'register',
   data () {
     return {
+      show: true,
+      count: '',
+      timer: null,
       customer: {
         phone: '',
         verifyCode: '',
@@ -74,7 +80,8 @@ export default {
     }
   },
   methods: {
-    register () {
+    register (event) {
+      event.preventDefault()
       let flag = true
       let formData = new FormData()
       for (var key in this.customer) {
@@ -89,18 +96,67 @@ export default {
         formData.append(key, this.customer[key])
       }
       if (flag) {
-        axios.post('http://localhost:8001/customer/register', formData, {
+        axios.post(api.http + '/register', formData, {
         }).then(response => {
           var result = response.data
-          this.swal({
-            text: result.resultCode,
-            confirmButtonText: '确定',
-            showCancelButton: false
-          })
+          if (result.resultCode === 'success') {
+            this.swal({
+              text: result.massage,
+              confirmButtonText: '去登陆',
+              showCancelButton: false
+            }).then(function () {
+              this.$router.push('/login')
+            }.bind(this))
+          } else {
+            this.swal({
+              text: result.massage,
+              confirmButtonText: '确定',
+              showCancelButton: false
+            })
+          }
         }).catch(error => {
           console.log(error)
         })
       }
+    },
+    getVerifyCode (event) {
+      event.preventDefault()
+      let queryData = new FormData()
+      queryData.append('phone', this.customer.phone)
+      if (this.customer.phone === '') {
+        this.swal({
+          text: '请填写手机号',
+          confirmButtonText: '确定',
+          showCancelButton: false
+        })
+        return
+      }
+      const TIME_COUNT = 60
+      if (!this.timer) {
+        this.count = TIME_COUNT
+        this.show = false
+        this.timer = setInterval(() => {
+          if (this.count > 1 && this.count <= TIME_COUNT) {
+            this.count--
+          } else {
+            this.show = true
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
+      axios.post(api.http + '/getVerifyCode', queryData, {
+      }).then(response => {
+        var result = response.data
+        this.swal({
+          text: result.massage,
+          confirmButtonText: '确定',
+          showCancelButton: false
+        })
+        event.preventDefault()
+      }).catch(error => {
+        console.log(error)
+      })
     },
     verifyPhone () {
       let reg = /^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[0,1,2,6,7,8,9])\d{8}$/
@@ -113,7 +169,13 @@ export default {
       }
     },
     verifyVerifyCode () {
-
+      if (this.customer.verifyCode === '') {
+        this.swal({
+          text: '验证码不能为空',
+          confirmButtonText: '确定',
+          showCancelButton: false
+        })
+      }
     },
     verifyPassword () {
       let reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/
@@ -188,7 +250,7 @@ export default {
     margin-left: 70%;
     margin-top: 10%;
     background-color: aliceblue;
-    width: 460px;
+    width: 480px;
     height: 650px;
     position: absolute;
     z-index: 5;
