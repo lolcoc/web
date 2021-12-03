@@ -1,16 +1,19 @@
 <template>
   <div class="hello">
+    <HeaderPage/>
+    放图片和简介
   </div>
 </template>
 
 <script>
+import HeaderPage from '@/components/page/Header'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  components: {HeaderPage}
 }
 </script>
 
